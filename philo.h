@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 18:48:15 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/18 20:00:43 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@
 # define ERR_IN_1 "INVALID INPUT CHARACTER"
 # define TIME_ERR "UNABLE TO RETRIVE UTC"
 # define ERR_IN_2 "INVALID INPUT VALUES"
-# define DIED "died"
+# define TAKE_FORKS "has taken a fork"
 # define THINKING "is thinking"
+# define SLEEPING "is sleeping"
+# define EATING "is eating"
+# define DIED "died"
 
-struct s_data;
+struct	s_data;
 
 typedef struct s_philo
 {
@@ -44,9 +47,10 @@ typedef struct s_philo
 
 	uint64_t		time_to_die;
 
-	pthread_mutex_t *r_fork;
-	pthread_mutex_t *l_fork;
-} t_philo;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
+}	t_philo;
 
 typedef struct s_data
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:12:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 18:44:16 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/18 20:01:42 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	init_forks(t_data *data)
 		i++;
 	}
 	return (0);
-
-	return (0);
 }
 
 void	init_philos(t_data *data)
@@ -62,6 +60,7 @@ void	init_philos(t_data *data)
 		data->philos[i].eat_cont = 0;
 		data->philos[i].eating = 0;
 		data->philos[i].status = 0;
+		pthread_mutex_init(&data->philos[i].lock, NULL);
 		i++;
 	}
 }
