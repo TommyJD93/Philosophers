@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:01:34 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 18:02:26 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:40:17 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,6 @@ int	input_checker(char **argv)
 	return (0);
 }
 
-int	error(char *str)
-{
-	printf("%s\n", str);
-	return (1);
-}
-
 uint64_t	get_time(void)
 {
 	unsigned int	ret;
@@ -97,4 +91,14 @@ void	ft_usleep(uint64_t time)
 	start_time = get_time();
 	while ((get_time() - start_time) < time)
 		usleep(time / 10);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	while (*s1 != '\0' && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(char *)s1 - *(char *)s2);
 }

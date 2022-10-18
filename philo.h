@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 18:13:23 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:48:15 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define ERR_IN_1 "INVALID INPUT CHARACTER"
 # define TIME_ERR "UNABLE TO RETRIVE UTC"
 # define ERR_IN_2 "INVALID INPUT VALUES"
+# define DIED "died"
+# define THINKING "is thinking"
 
 struct s_data;
 
@@ -38,6 +40,7 @@ typedef struct s_philo
 	int				id;
 	int				eat_cont;
 	int				status; //if != 0 philo is dead
+	int				eating; //if != 0 philo is dead
 
 	uint64_t		time_to_die;
 
@@ -50,6 +53,7 @@ typedef struct s_data
 	pthread_t		*tid;
 	int				philo_num;
 	int				meals_nb;
+	int				dead;
 
 	t_philo			*philos;
 
@@ -60,7 +64,7 @@ typedef struct s_data
 
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
-	pthread_mutex_t	dead;
+	pthread_mutex_t	dead_m;
 } t_data;
 
 //	utils
@@ -68,10 +72,16 @@ long		ft_atoi(const char *str);
 int			error(char *str);
 uint64_t	get_time(void);
 void		ft_usleep(uint64_t time);
+int			ft_strcmp(char *s1, char *s2);
+void		message(char *str, t_philo *philo);
 
 //	init
 int			init(t_data *data, char **argv, int argc);
 int			thread_init(t_data *data);
+
 //	checker
 int			input_checker(char **argv);
+
+//actions
+void	eat(t_philo *philo);
 #endif

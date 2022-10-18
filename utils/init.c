@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:12:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 17:55:56 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:44:16 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	init_philos(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].time_to_die = data->death_time;
 		data->philos[i].eat_cont = 0;
+		data->philos[i].eating = 0;
 		data->philos[i].status = 0;
 		i++;
 	}
@@ -79,7 +80,7 @@ int init_data(t_data *data, char **argv, int argc)
 		|| data->eat_time < 0 || data->sleep_time < 0)
 		return (error(ERR_IN_2));
 	pthread_mutex_init(&data->write, NULL);
-	pthread_mutex_init(&data->dead, NULL);
+	pthread_mutex_init(&data->dead_m, NULL);
 	return (0);
 }
 
