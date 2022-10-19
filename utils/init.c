@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:12:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 11:22:32 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:42:53 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	alloc(t_data *data)
 {
 	data->tid = malloc(sizeof(pthread_t) * data->philo_num);
 	if (!data->tid)
-		return (error(ALLOC_ERR_1));
+		return (error(ALLOC_ERR_1, data));
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_num);
 	if (!data->tid)
-		return (error(ALLOC_ERR_2));
+		return (error(ALLOC_ERR_2, data));
 	data->philos = malloc(sizeof(t_philo) * data->philo_num);
 	if (!data->tid)
-		return (error(ALLOC_ERR_3));
+		return (error(ALLOC_ERR_3, data));
 	return (0);
 }
 
@@ -77,10 +77,9 @@ int init_data(t_data *data, char **argv, int argc)
 		data->meals_nb = -1;
 	if (data->philo_num < 0 || data->philo_num > 200 || data->death_time < 0
 		|| data->eat_time < 0 || data->sleep_time < 0)
-		return (error(ERR_IN_2));
+		return (error(ERR_IN_2, NULL));
 	data->dead = 0;
 	pthread_mutex_init(&data->write, NULL);
-	pthread_mutex_init(&data->dead_m, NULL);
 	return (0);
 }
 
@@ -93,29 +92,5 @@ int init(t_data *data, char **argv, int argc)
 	if (init_forks(data))
 		return (1);
 	init_philos(data);
-	//----------------INPUT PRINT----------------
-    int i;
-    printf("----------------INPUT PRINT----------------\n");
-    printf("num_philos: %d\n", data->philo_num);
-    printf("times_must_eat: %d\n", data->meals_nb);
-    printf("time_to_die: %llu\n", data->death_time);
-    printf("time_to_eat: %llu\n", data->eat_time);
-    printf("time_to_sleep: %llu\n", data->sleep_time);
-    i = 0;
-    printf("philos:\n");
-    while (i < data->philo_num)
-    {
-        printf("id: %d\n", data->philos[i].id);
-        printf("data_pointer: %p\n", data->philos[i].data);
-        printf("times_must_eat: %d\n", data->philos[i].eat_cont);
-        printf("time_to_die: %llu\n", data->philos[i].time_to_die);
-        // printf("time_to_eat: %llu\n", data->philos[i].time_to_eat);
-        // printf("time_to_sleep: %llu\n", data->philos[i].time_to_sleep);
-        i++;
-    }
-    char c;
-    printf("press ENTER to continue:");
-    scanf("%c", &c);
-
 	return (0);
 }

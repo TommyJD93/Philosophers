@@ -6,17 +6,12 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:00:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 10:57:01 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:39:50 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	error(char *str)
-{
-	printf("%s\n", str);
-	return (1);
-}
 
 void	messages(char *str, t_philo *philo)
 {
@@ -26,13 +21,44 @@ void	messages(char *str, t_philo *philo)
 	time = get_time() - philo->data->start_time;
 	if (ft_strcmp(DIED, str) == 0 && philo->data->dead == 0)
 	{
-		printf("why\n");
-		printf("[%llu]: %d\t%s\n", time, philo->id, str);
+		printf("%llu %d %s\n", time, philo->id, str);
 		philo->data->dead = 1;
 	}
 	if (!philo->data->dead)
-		printf("[%llu]: %d\t%s\n", time, philo->id, str);
+		printf("%llu %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->write);
+}
+
+void	clear_data(t_data	*data)
+{
+	if (data->tid)
+		free(data->tid);
+	if (data->forks)
+		free(data->forks);
+	if (data->philos)
+		free(data->philos);
+}
+
+void	ft_exit(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].lock);
+	}
+	pthread_mutex_destroy(&data->write);
+	clear_data(data);
+}
+
+int	error(char *str, t_data *data)
+{
+	printf("%s\n", str);
+	if (data)
+		ft_exit(data);
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -47,5 +73,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (thread_init(&data))
 		return (1);
+	ft_exit(&data);
 	return (0);
 }

@@ -6,11 +6,16 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:56:39 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 10:55:19 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:39:57 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+// void	*monitor(void *data_pointer)
+// {
+
+// }
 
 void	*supervisor(void *philo_pointer)
 {
@@ -19,11 +24,10 @@ void	*supervisor(void *philo_pointer)
 	philo = (t_philo *) philo_pointer;
 	while (philo->data->dead == 0)
 	{
-		pthread_mutex_lock(&philo->data->dead_m);
-		if (get_time() > philo->time_to_die)
+		pthread_mutex_lock(&philo->lock);
+		if (get_time() >= philo->time_to_die && philo->eating == 0)
 			messages(DIED, philo);
-		pthread_mutex_unlock(&philo->data->dead_m);
-		ft_usleep(100);
+		pthread_mutex_unlock(&philo->lock);
 	}
 	return ((void *)0);
 }
@@ -55,15 +59,15 @@ int	thread_init(t_data *data)
 	while (++i < data->philo_num)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
-			return (error(TH_ERR));
+			return (error(TH_ERR, data));
 		ft_usleep(1);
 	}
-	i = 0;
-	while (i < data->philo_num)
+	i = -1;
+	while (++i < data->philo_num)
 	{
 		if (pthread_join(data->tid[i], NULL))
-			return (error(JOIN_ERR));
-		i++;
+			return (error(JOIN_ERR, data));
+		// i++;
 	}
 	return (0);
 }

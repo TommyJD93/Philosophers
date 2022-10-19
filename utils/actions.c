@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 18:35:49 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 11:20:18 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 16:34:32 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	messages(TAKE_FORKS, philo);
 	pthread_mutex_lock(philo->r_fork);
+	messages(TAKE_FORKS, philo);
+	pthread_mutex_lock(philo->l_fork);
 	messages(TAKE_FORKS, philo);
 }
 
@@ -33,7 +33,7 @@ void	eat(t_philo *philo)
 	take_forks(philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eating = 1;
-	philo->time_to_die = get_time() + philo->time_to_die;
+	philo->time_to_die = get_time() + philo->data->death_time;
 	messages(EATING, philo);
 	philo->eat_cont++;
 	pthread_mutex_lock(&philo->data->write);

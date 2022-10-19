@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:01:34 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 10:57:15 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:39:01 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	input_checker(char **argv)
 				continue ;
 			}
 			if ((argv[i][j] < 48 || argv[i][j] > 57))
-				return (error(ERR_IN_1));
+				return (error(ERR_IN_1, NULL));
 			j++;
 		}
 		i++;
@@ -77,7 +77,7 @@ u_int64_t	get_time(void)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
-		return (error("gettimeofday() FAILURE\n"));
+		return (error("gettimeofday() FAILURE\n", NULL));
 	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));
 }
 

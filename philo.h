@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 11:38:31 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:41:59 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,20 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+//	alloc_err
 # define ALLOC_ERR_1 "ERROR WHILE ALLOCATING THREADS IDs"
 # define ALLOC_ERR_3 "ERROR WHILE ALLOCATING PHILOS"
 # define ALLOC_ERR_2 "ERROR WHILE ALLOCATING FORKS"
-# define JOIN_ERR "ERROR WHILE JOINING THREADS"
-# define TH_ERR "ERROR WHILE CREATING THREADS"
-# define INIT_ERR_1 "ERROR WHILE INIT FORKS"
+//	input_err
 # define ERR_IN_1 "INVALID INPUT CHARACTER"
-# define TIME_ERR "UNABLE TO RETRIVE UTC"
 # define ERR_IN_2 "INVALID INPUT VALUES"
+//	pthread_err
+# define TH_ERR "ERROR WHILE CREATING THREADS"
+# define JOIN_ERR "ERROR WHILE JOINING THREADS"
+# define INIT_ERR_1 "ERROR WHILE INIT FORKS"
+//	time_err
+# define TIME_ERR "UNABLE TO RETRIVE UTC"
+//	philo_msg
 # define TAKE_FORKS "has taken a fork"
 # define THINKING "is thinking"
 # define SLEEPING "is sleeping"
@@ -43,7 +48,7 @@ typedef struct s_philo
 	int				id;
 	int				eat_cont;
 	int				status; //if != 0 philo is dead
-	int				eating; //if != 0 philo is dead
+	int				eating; //if != 0 philo is eating
 
 	uint64_t		time_to_die;
 
@@ -68,12 +73,11 @@ typedef struct s_data
 
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
-	pthread_mutex_t	dead_m;
 }	t_data;
 
 //	utils
 long		ft_atoi(const char *str);
-int			error(char *str);
+int			error(char *str, t_data *data);
 int			ft_strcmp(char *s1, char *s2);
 void		messages(char *str, t_philo *philo);
 
