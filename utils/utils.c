@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:01:34 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 09:33:11 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 10:57:15 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,23 @@ int	input_checker(char **argv)
 	return (0);
 }
 
-uint64_t get_time(void)
+u_int64_t	get_time(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
-		return(error("gettimeofday() FAILURE"));
-	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+		return (error("gettimeofday() FAILURE\n"));
+	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(useconds_t time)
+int	ft_usleep(useconds_t time)
 {
-	uint64_t	start;
+	u_int64_t	start;
 
 	start = get_time();
 	while ((get_time() - start) < time)
 		usleep(time / 10);
-	return ;
+	return (0);
 }
 
 int	ft_strcmp(char *s1, char *s2)

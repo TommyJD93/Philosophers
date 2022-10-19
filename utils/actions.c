@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 18:35:49 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 09:26:37 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:20:18 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ void	eat(t_philo *philo)
 	take_forks(philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eating = 1;
+	philo->time_to_die = get_time() + philo->time_to_die;
 	messages(EATING, philo);
 	philo->eat_cont++;
+	pthread_mutex_lock(&philo->data->write);
+	pthread_mutex_unlock(&philo->data->write);
 	ft_usleep(philo->data->eat_time);
-	messages("suca", philo);
 	philo->eating = 0;
 	pthread_mutex_unlock(&philo->lock);
 	drop_forks(philo);

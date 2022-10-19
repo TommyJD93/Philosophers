@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:56:39 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 09:26:19 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 10:55:19 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,13 @@ void	*supervisor(void *philo_pointer)
 	t_philo	*philo;
 
 	philo = (t_philo *) philo_pointer;
-	// pthread_mutex_lock(&philo->data->write);
-	// printf("[%llu] hello from supervisor: %d\n", get_time() - philo->data->start_time, philo->id);
-	// pthread_mutex_unlock(&philo->data->write);
-	while (!philo->data->dead)
+	while (philo->data->dead == 0)
 	{
 		pthread_mutex_lock(&philo->data->dead_m);
-		if (!philo->eating && get_time() > philo->data->death_time)
+		if (get_time() > philo->time_to_die)
 			messages(DIED, philo);
 		pthread_mutex_unlock(&philo->data->dead_m);
-		// ft_usleep(2);
+		ft_usleep(100);
 	}
 	return ((void *)0);
 }
@@ -36,12 +33,10 @@ void	*routine(void *philo_pointer)
 	t_philo	*philo;
 
 	philo = (t_philo *) philo_pointer;
-	// pthread_mutex_lock(&philo->data->write);
-	// printf("[%llu] hello from philo: %d\n", get_time() - philo->data->start_time, philo->id);
-	// pthread_mutex_unlock(&philo->data->write);
+	philo->time_to_die = philo->data->death_time + get_time();
 	if (pthread_create(&philo->t1, NULL, &supervisor, (void *)philo))
 		return ((void *)1);
-	while (!philo->data->dead)
+	while (philo->data->dead == 0)
 	{
 		eat(philo);
 		messages(THINKING, philo);

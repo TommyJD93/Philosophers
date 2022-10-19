@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:12:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 09:07:47 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:22:32 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	alloc(t_data *data)
 	data->tid = malloc(sizeof(pthread_t) * data->philo_num);
 	if (!data->tid)
 		return (error(ALLOC_ERR_1));
-	data->forks = malloc(sizeof(pthread_t) * data->philo_num);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_num);
 	if (!data->tid)
 		return (error(ALLOC_ERR_2));
-	data->philos = malloc(sizeof(pthread_t) * data->philo_num);
+	data->philos = malloc(sizeof(t_philo) * data->philo_num);
 	if (!data->tid)
 		return (error(ALLOC_ERR_3));
 	return (0);
@@ -68,9 +68,9 @@ void	init_philos(t_data *data)
 int init_data(t_data *data, char **argv, int argc)
 {
 	data->philo_num = (int) ft_atoi(argv[1]);
-	data->death_time = (uint64_t) ft_atoi(argv[2]);
-	data->eat_time = (uint64_t) ft_atoi(argv[3]);
-	data->sleep_time = (uint64_t) ft_atoi(argv[4]);
+	data->death_time = (u_int64_t) ft_atoi(argv[2]);
+	data->eat_time = (u_int64_t) ft_atoi(argv[3]);
+	data->sleep_time = (u_int64_t) ft_atoi(argv[4]);
 	if (argc == 6)
 		data->meals_nb = (int) ft_atoi(argv[5]);
 	else

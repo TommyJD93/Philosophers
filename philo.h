@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 09:26:58 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:38:31 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ typedef struct s_data
 
 	t_philo			*philos;
 
-	uint64_t		death_time;
-	uint64_t		eat_time;
-	uint64_t		sleep_time;
-	uint64_t		start_time;
+	u_int64_t		death_time;
+	u_int64_t		eat_time;
+	u_int64_t		sleep_time;
+	u_int64_t		start_time;
 
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
@@ -74,10 +74,12 @@ typedef struct s_data
 //	utils
 long		ft_atoi(const char *str);
 int			error(char *str);
-uint64_t	get_time(void);
-void		ft_usleep(uint64_t time);
 int			ft_strcmp(char *s1, char *s2);
 void		messages(char *str, t_philo *philo);
+
+//time
+u_int64_t	get_time(void);
+int			ft_usleep(useconds_t time);
 
 //	init
 int			init(t_data *data, char **argv, int argc);
@@ -87,5 +89,5 @@ int			thread_init(t_data *data);
 int			input_checker(char **argv);
 
 //actions
-void	eat(t_philo *philo);
+void		eat(t_philo *philo);
 #endif
