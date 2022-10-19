@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 20:00:43 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 09:26:58 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
 	pthread_mutex_t	dead_m;
-} t_data;
+}	t_data;
 
 //	utils
 long		ft_atoi(const char *str);
@@ -77,7 +77,7 @@ int			error(char *str);
 uint64_t	get_time(void);
 void		ft_usleep(uint64_t time);
 int			ft_strcmp(char *s1, char *s2);
-void		message(char *str, t_philo *philo);
+void		messages(char *str, t_philo *philo);
 
 //	init
 int			init(t_data *data, char **argv, int argc);

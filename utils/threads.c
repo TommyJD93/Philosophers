@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:56:39 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 18:48:56 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 09:26:19 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,10 @@ void	*supervisor(void *philo_pointer)
 	{
 		pthread_mutex_lock(&philo->data->dead_m);
 		if (!philo->eating && get_time() > philo->data->death_time)
-		{
-			message(DIED, philo);
-		}
+			messages(DIED, philo);
 		pthread_mutex_unlock(&philo->data->dead_m);
-		ft_usleep(5);
+		// ft_usleep(2);
 	}
-
-
 	return ((void *)0);
 }
 
@@ -47,8 +43,8 @@ void	*routine(void *philo_pointer)
 		return ((void *)1);
 	while (!philo->data->dead)
 	{
-		// eat(philo);
-		message(THINKING, philo);
+		eat(philo);
+		messages(THINKING, philo);
 	}
 	if (pthread_join(philo->t1, NULL))
 		return ((void *)1);

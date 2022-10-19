@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:12:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 20:01:42 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 09:07:47 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int init_data(t_data *data, char **argv, int argc)
 	if (data->philo_num < 0 || data->philo_num > 200 || data->death_time < 0
 		|| data->eat_time < 0 || data->sleep_time < 0)
 		return (error(ERR_IN_2));
+	data->dead = 0;
 	pthread_mutex_init(&data->write, NULL);
 	pthread_mutex_init(&data->dead_m, NULL);
 	return (0);

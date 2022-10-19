@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:01:34 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/18 18:40:17 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/19 09:33:11 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,25 +72,23 @@ int	input_checker(char **argv)
 	return (0);
 }
 
-uint64_t	get_time(void)
+uint64_t get_time(void)
 {
-	unsigned int	ret;
-	struct timeval	time;
+	struct timeval tv;
 
-	ret = 0;
-	if (gettimeofday(&time, NULL) == -1)
-		return (error(TIME_ERR));
-	ret = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (ret);
+	if (gettimeofday(&tv, NULL))
+		return(error("gettimeofday() FAILURE"));
+	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(uint64_t time)
+void	ft_usleep(useconds_t time)
 {
-	unsigned int	start_time;
+	uint64_t	start;
 
-	start_time = get_time();
-	while ((get_time() - start_time) < time)
+	start = get_time();
+	while ((get_time() - start) < time)
 		usleep(time / 10);
+	return ;
 }
 
 int	ft_strcmp(char *s1, char *s2)

@@ -2,7 +2,7 @@ NAME = philo
 
 CC = gcc
 
-CFLAGS = -O3 -g -Wall -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 #LIBFT_PATH = libft/
 
@@ -20,7 +20,7 @@ X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
 
-CFILES = main.c utils/init.c utils/utils.c utils/threads.c \
+CFILES = main.c utils/init.c utils/utils.c utils/threads.c utils/actions.c \
 
 OBJECTS = $(CFILES:.c=.o)
 
