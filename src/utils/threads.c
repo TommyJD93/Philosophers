@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:56:39 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 17:39:57 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:32:50 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../../lib/philo.h"
 
 // void	*monitor(void *data_pointer)
 // {

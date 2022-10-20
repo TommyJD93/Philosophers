@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:01:34 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 17:39:01 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:32:57 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../../lib/philo.h"
 
 bool	is_in_strings(char c, char *str)
 {

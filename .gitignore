@@ -1,0 +1,8 @@
+*.o
+*.a
+*.swp
+*.swo
+*.out
+philo
+.DS_Store
+.vscode/

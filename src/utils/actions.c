@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 18:35:49 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 16:34:32 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:33:05 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../../lib/philo.h"
 
 void	take_forks(t_philo *philo)
 {

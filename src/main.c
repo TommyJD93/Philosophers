@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:00:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 17:39:50 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:33:23 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
+#include "../lib/philo.h"
 
 void	messages(char *str, t_philo *philo)
 {

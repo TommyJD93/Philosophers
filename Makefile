@@ -4,14 +4,6 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-#LIBFT_PATH = libft/
-
-#LIBFT_LIB = $(LIBFT_PATH)libft.a
-
-# PRINTF_PATH = ft_printf/
-
-# PRINTF_LIB = $(PRINTF_PATH)libftprintf.a
-
 Y = "\033[33m"
 R = "\033[31m"
 G = "\033[32m"
@@ -20,7 +12,8 @@ X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
 
-CFILES = main.c utils/init.c utils/utils.c utils/threads.c utils/actions.c \
+CFILES = src/main.c src/utils/init.c src/utils/utils.c \
+			src/utils/threads.c src/utils/actions.c \
 
 OBJECTS = $(CFILES:.c=.o)
 
