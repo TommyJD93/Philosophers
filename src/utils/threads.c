@@ -12,10 +12,28 @@
 
 #include "../../lib/philo.h"
 
-// void	*monitor(void *data_pointer)
-// {
+void	*monitor(void *data_pointer)
+{
+	t_data	*data;
+	int		i;
 
-// }
+	data = (t_data *) data_pointer;
+	while (data->dead == 0)
+	{
+		i = 0;
+		pthread_mutex_lock(&data->lock);
+		while (i < data->philo_num)
+		{
+			pthread_mutex_lock(&data->philos[i].lock);
+			if (data->philos[i].eat_cont == data->meals_nb)
+				data->finished++;
+			pthread_mutex_unlock(&data->philos[i].lock);
+			i++;
+		}
+		pthread_mutex_unlock(&data->lock);
+	}
+	return ((void *)0);
+}
 
 void	*supervisor(void *philo_pointer)
 {
@@ -27,6 +45,8 @@ void	*supervisor(void *philo_pointer)
 		pthread_mutex_lock(&philo->lock);
 		if (get_time() >= philo->time_to_die && philo->eating == 0)
 			messages(DIED, philo);
+		if (philo->data->finished == philo->data->philo_num)
+			philo->data->dead = 1;
 		pthread_mutex_unlock(&philo->lock);
 	}
 	return ((void *)0);
@@ -56,6 +76,9 @@ int	thread_init(t_data *data)
 
 	i = -1;
 	data->start_time = get_time();
+	if (data->meals_nb > 0)
+		if (pthread_create(&data->tid[i], NULL, &monitor, &data))
+			return(error(TH_ERR, data));
 	while (++i < data->philo_num)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))

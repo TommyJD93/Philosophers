@@ -79,7 +79,9 @@ int init_data(t_data *data, char **argv, int argc)
 		|| data->eat_time < 0 || data->sleep_time < 0)
 		return (error(ERR_IN_2, NULL));
 	data->dead = 0;
+	data->finished = 0;
 	pthread_mutex_init(&data->write, NULL);
+	pthread_mutex_init(&data->lock, NULL);
 	return (0);
 }
 

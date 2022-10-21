@@ -63,6 +63,7 @@ typedef struct s_data
 	int				philo_num;
 	int				meals_nb;
 	int				dead;
+	int				finished;
 
 	t_philo			*philos;
 
@@ -72,6 +73,7 @@ typedef struct s_data
 	u_int64_t		start_time;
 
 	pthread_mutex_t	*forks;
+	pthread_mutex_t lock;
 	pthread_mutex_t	write;
 }	t_data;
 
