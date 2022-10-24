@@ -3,34 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:56:39 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/20 13:32:50 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:03:29 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lib/philo.h"
 
+u_int64_t	get_time(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL))
+		return (error("gettimeofday() FAILURE\n", NULL));
+	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));
+}
+
 void	*monitor(void *data_pointer)
 {
-	t_data	*data;
-	int		i;
+	t_philo	*philo;
 
-	data = (t_data *) data_pointer;
-	while (data->dead == 0)
+	philo = (t_philo *) data_pointer;
+	pthread_mutex_lock(&philo->data->write);
+	printf("data val: %d", philo->data->dead);
+	pthread_mutex_unlock(&philo->data->write);
+	while (philo->data->dead == 0)
 	{
-		i = 0;
-		pthread_mutex_lock(&data->lock);
-		while (i < data->philo_num)
-		{
-			pthread_mutex_lock(&data->philos[i].lock);
-			if (data->philos[i].eat_cont == data->meals_nb)
-				data->finished++;
-			pthread_mutex_unlock(&data->philos[i].lock);
-			i++;
-		}
-		pthread_mutex_unlock(&data->lock);
+		pthread_mutex_lock(&philo->lock);
+		if (philo->data->finished >= philo->data->philo_num)
+			philo->data->dead = 1;
+		pthread_mutex_unlock(&philo->lock);
 	}
 	return ((void *)0);
 }
@@ -45,8 +49,13 @@ void	*supervisor(void *philo_pointer)
 		pthread_mutex_lock(&philo->lock);
 		if (get_time() >= philo->time_to_die && philo->eating == 0)
 			messages(DIED, philo);
-		if (philo->data->finished == philo->data->philo_num)
-			philo->data->dead = 1;
+		if (philo->eat_cont == philo->data->meals_nb)
+		{
+			pthread_mutex_lock(&philo->data->lock);
+			philo->data->finished++;
+			philo->eat_cont++;
+			pthread_mutex_unlock(&philo->data->lock);
+		}
 		pthread_mutex_unlock(&philo->lock);
 	}
 	return ((void *)0);
@@ -72,13 +81,16 @@ void	*routine(void *philo_pointer)
 
 int	thread_init(t_data *data)
 {
-	int	i;
+	int			i;
+	pthread_t	t0;
 
 	i = -1;
 	data->start_time = get_time();
 	if (data->meals_nb > 0)
-		if (pthread_create(&data->tid[i], NULL, &monitor, &data))
-			return(error(TH_ERR, data));
+	{
+		if (pthread_create(&t0, NULL, &monitor, &data->philos[0]))
+			return (error(TH_ERR, data));
+	}
 	while (++i < data->philo_num)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
@@ -90,7 +102,6 @@ int	thread_init(t_data *data)
 	{
 		if (pthread_join(data->tid[i], NULL))
 			return (error(JOIN_ERR, data));
-		// i++;
 	}
 	return (0);
 }

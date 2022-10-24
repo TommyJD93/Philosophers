@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/19 17:41:59 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:01:56 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ typedef struct s_philo
 	pthread_t		t1;
 	int				id;
 	int				eat_cont;
-	int				status; //if != 0 philo is dead
-	int				eating; //if != 0 philo is eating
-
+	int				status;
+	int				eating;
 	uint64_t		time_to_die;
-
 	pthread_mutex_t	lock;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
@@ -64,16 +62,13 @@ typedef struct s_data
 	int				meals_nb;
 	int				dead;
 	int				finished;
-
 	t_philo			*philos;
-
 	u_int64_t		death_time;
 	u_int64_t		eat_time;
 	u_int64_t		sleep_time;
 	u_int64_t		start_time;
-
 	pthread_mutex_t	*forks;
-	pthread_mutex_t lock;
+	pthread_mutex_t	lock;
 	pthread_mutex_t	write;
 }	t_data;
 
