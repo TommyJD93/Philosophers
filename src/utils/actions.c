@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 18:35:49 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/20 13:33:05 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:20:53 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lib/philo.h"
+
+u_int64_t	get_time(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL))
+		return (error("gettimeofday() FAILURE\n", NULL));
+	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));
+}
+
+void	messages(char *str, t_philo *philo)
+{
+	u_int64_t	time;
+
+	pthread_mutex_lock(&philo->data->write);
+	time = get_time() - philo->data->start_time;
+	if (ft_strcmp(DIED, str) == 0 && philo->data->dead == 0)
+	{
+		printf("%llu %d %s\n", time, philo->id, str);
+		philo->data->dead = 1;
+	}
+	if (!philo->data->dead)
+		printf("%llu %d %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->write);
+}
 
 void	take_forks(t_philo *philo)
 {
@@ -36,8 +61,6 @@ void	eat(t_philo *philo)
 	philo->time_to_die = get_time() + philo->data->death_time;
 	messages(EATING, philo);
 	philo->eat_cont++;
-	pthread_mutex_lock(&philo->data->write);
-	pthread_mutex_unlock(&philo->data->write);
 	ft_usleep(philo->data->eat_time);
 	philo->eating = 0;
 	pthread_mutex_unlock(&philo->lock);

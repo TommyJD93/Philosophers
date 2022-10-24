@@ -6,26 +6,22 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:00:13 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/24 10:05:22 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:29:43 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/philo.h"
 
-void	messages(char *str, t_philo *philo)
+int	case_one(t_data *data)
 {
-	u_int64_t	time;
-
-	pthread_mutex_lock(&philo->data->write);
-	time = get_time() - philo->data->start_time;
-	if (ft_strcmp(DIED, str) == 0 && philo->data->dead == 0)
-	{
-		printf("%llu %d %s\n", time, philo->id, str);
-		philo->data->dead = 1;
-	}
-	if (!philo->data->dead)
-		printf("%llu %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->write);
+	data->start_time = get_time();
+	if (pthread_create(&data->tid[0], NULL, &routine, &data->philos[0]))
+		return (error(TH_ERR, data));
+	pthread_detach(data->tid[0]);
+	while (data->dead == 0)
+		ft_usleep(0);
+	ft_exit(data);
+	return (0);
 }
 
 void	clear_data(t_data	*data)
@@ -49,6 +45,7 @@ void	ft_exit(t_data *data)
 		pthread_mutex_destroy(&data->philos[i].lock);
 	}
 	pthread_mutex_destroy(&data->write);
+	pthread_mutex_destroy(&data->lock);
 	clear_data(data);
 }
 
@@ -70,6 +67,8 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init(&data, argv, argc))
 		return (1);
+	if (data.philo_num == 1)
+		return (case_one(&data));
 	if (thread_init(&data))
 		return (1);
 	ft_exit(&data);

@@ -6,20 +6,11 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:56:39 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/24 11:03:29 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:20:34 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lib/philo.h"
-
-u_int64_t	get_time(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL))
-		return (error("gettimeofday() FAILURE\n", NULL));
-	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));
-}
 
 void	*monitor(void *data_pointer)
 {

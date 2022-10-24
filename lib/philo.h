@@ -6,7 +6,7 @@
 /*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:04:22 by tterribi          #+#    #+#             */
-/*   Updated: 2022/10/24 11:01:56 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:29:49 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ long		ft_atoi(const char *str);
 int			error(char *str, t_data *data);
 int			ft_strcmp(char *s1, char *s2);
 void		messages(char *str, t_philo *philo);
+void		ft_exit(t_data *data);
 
-//time
+//	time
 u_int64_t	get_time(void);
 int			ft_usleep(useconds_t time);
 
@@ -89,6 +90,9 @@ int			thread_init(t_data *data);
 //	checker
 int			input_checker(char **argv);
 
-//actions
+//	actions
 void		eat(t_philo *philo);
+
+//	threads
+void		*routine(void *philo_pointer);
 #endif
