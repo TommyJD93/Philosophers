@@ -22,7 +22,9 @@ one they will be: Roberto Legno, Thiago, Marcello, Lapo Raspanti and Rekkless.<b
 <p>Let's say that Roberto Legno wants to eat, so he picks his right and left fork, at this point we notice that Rekkless can't eat since Roberto Legno picked his right fork witch was shared with Rekkless; this might seem a little obvious but keep in mind this situation because the main problem of this project is how to organize the eating action of the philosophers.<br>
 Probably the first solution that came to your mind is to simply make the odd and even philos eat separately, well we are not going to do that, it's too hard coded and we would loose the meaning of the project, <i><b>philos have to organize by themselves.</b></i></br>
 But, how are we going to do that? Using mutex!</p></p>
+
 <div align='center'> <h1>Race Conditions & Mutex</h1> </div>
+
 <h3>Race conditions</h3>
 Before explaining what mutex are and why we have to use them, let's talk about what race conditions are. A <a href='https://stackoverflow.com/questions/34510/what-is-a-race-condition'>Race condition</a> it is a condition in which one or more threads are trying to access and modify a same variable at the same time, this can lead to an error in the final value of that variable. To better understan the race condition here's an example:
 Let's say that we want to count to 2.000.000, to do that with the multithreading we simply make two threads that execute the same routine, and the routine increase the variable cont to 1.000.000, in this way we should execute the while inside routine 2 times and when cont is printed we should get 2.000.000. Well, that's not exactly how it works.
@@ -95,6 +97,7 @@ At this point the thread B is paused, because is doing the same operation as A a
 As we can see B restart from where he was paused, since he already read 23 he won't read the current value of cont, he will keep doing his operation with the last value he read before stopping, in this case it's 23 so he will update the cont value to 24 and therefore A's next iteration won't read 31 but 24.
 
 <a href='https://www.youtube.com/watch?v=FY9livorrJI'>video about race condition</a>
+
 <h3>Mutex</h3>
 Now that we know what a race condition is we'll talk about mutex, that are what we need to avoid a data racing. Immagine these as locks, if a mutex is already locked and a thread tries to lock it he we'll be stopped untill the mutex will be unlocked. Taking up the previous example, we could avoid the race condition simply adding a lock before we increase the value, in this way thread B can't overwrite the value of cont with what he read before being stopped.
 <pre>
@@ -135,4 +138,58 @@ int main()
 }
 </code>
 </pre>
-You have surely noticed that we initialize and destroy the mutex, and you <b><i>have to</b></i> do that every time you want to use a mutex (destroy it after you finished using it) otherwise it won't work. <b><i>Please note that if you don't destroy a mutex you may end up having leaks, but MacOS aren't detected.</b></i>
+You have surely noticed that we initialize and destroy the mutex, and you <b><i>have to</b></i> do that every time you want to use a mutex (destroy it after you finished using it) otherwise it won't work. <b><i>Please note that if you don't destroy a mutex you may end up having leaks, but MacOS aren't detected.</b></i><br>
+If you want more informations about mutex i suggest you to take a look at the pthread documentation and to the video below<br>
+<a href='https://www.youtube.com/watch?v=oq29KUy29iQ'>video about mutex</a>
+
+<div align='center'> <h1>Step to step guide</h1> </div>
+
+<h3>Step 1: Checking the input</h3>
+The first thing we are going to do it checking the input that we recive. As first thing let's take a analyze a standard input that we are going to recive: 5 800 200 200 7
+<ul>
+<li>5: is the number of philos</li>
+<li>800: is the time a philosopher must fast to die</li>
+<li>200: is the time a philosopher takes to eat</li>
+<li>200: is the time a philosopher takes to sleep</li>
+<li>7: are the times all the philos must eat in order to terminate the program</li>
+</ul>
+
+Let's think to the conditions the inputs has to respect: obviously the input must contain only numbers; the correction sheet, at the moment I'm writing this guide (4/11/2022) tells you to test with no more that 200 philos so we can set the limit of philos to 200 and can't be less than 1; for what concerns the death, eat and think time the only thing you. have to check is that they are bigger than 0. 
+<h3>Step 2: Creating the structures</h3>
+Since we need to handle a lot of data, we will need a couple of structures. Personally I've made 2 structures: one with the general set of rules (input datas, mutex array for forks, philos array, ...); and one for the philos where I save the personal data of each philo (pointer to the general data structure, time left before his death, pointers to forks, ...). You can handle the structures as you want, but one thing that i suggest you is to make a pointer to the structure of the general data (or where you want to save the input datas) because you will need them later, I'll leave a snippet to show you how I've done that.
+<pre>
+<code>
+struct	s_data; //this line is to define the structure before actually saying what's inside it
+
+typedef struct s_philo
+{
+	struct s_data	*data;
+  pthread_t       t1;
+	int             id;
+	int             eat_cont;
+	int             status;
+	int             eating;
+	uint64_t        time_to_die;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
+} t_philo;
+
+typedef struct s_data
+{
+  pthread_t       *tid;
+  int             philo_num;
+  int             meals_nb;
+	int             dead;
+	int             finished;
+  t_philo         *philos;
+	u_int64_t       death_time;
+	u_int64_t       eat_time;
+	u_int64_t       sleep_time;
+	u_int64_t       start_time;
+	pthread_mutex_t *forks;
+	pthread_mutex_t lock;
+	pthread_mutex_t write;
+} t_data;
+</code>
+</pre>
