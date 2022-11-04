@@ -22,7 +22,7 @@ one they will be: Roberto Legno, Thiago, Marcello, Lapo Raspanti and Rekkless.<b
 <p>Let's say that Roberto Legno wants to eat, so he picks his right and left fork, at this point we notice that Rekkless can't eat since Roberto Legno picked his right fork witch was shared with Rekkless; this might seem a little obvious but keep in mind this situation because the main problem of this project is how to organize the eating action of the philosophers.<br>
 Probably the first solution that came to your mind is to simply make the odd and even philos eat separately, well we are not going to do that, it's too hard coded and we would loose the meaning of the project, <i><b>philos have to organize by themselves.</b></i></br>
 But, how are we going to do that? Using mutex!</p></p>
-<div align='center'> <h1>Race Conditions & Mutexe</h1> </div>
+<div align='center'> <h1>Race Conditions & Mutex</h1> </div>
 <h3>Race conditions</h3>
 Before explaining what mutex are and why we have to use them, let's talk about what race conditions are. A <a href='https://stackoverflow.com/questions/34510/what-is-a-race-condition'>Race condition</a> it is a condition in which one or more threads are trying to access and modify a same variable at the same time, this can lead to an error in the final value of that variable. To better understan the race condition here's an example:
 Let's say that we want to count to 2.000.000, to do that with the multithreading we simply make two threads that execute the same routine, and the routine increase the variable cont to 1.000.000, in this way we should execute the while inside routine 2 times and when cont is printed we should get 2.000.000. Well, that's not exactly how it works.
