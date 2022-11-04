@@ -164,7 +164,7 @@ struct	s_data; //this line is to define the structure before actually saying wha
 typedef struct s_philo
 {
 	struct s_data	*data;
-  pthread_t       t1;
+	pthread_t       t1;
 	int             id;
 	int             eat_cont;
 	int             status;
@@ -177,12 +177,12 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-  pthread_t       *tid;
-  int             philo_num;
-  int             meals_nb;
+	pthread_t       *tid;
+	int             philo_num;
+	int             meals_nb;
 	int             dead;
 	int             finished;
-  t_philo         *philos;
+	t_philo         *philos;
 	u_int64_t       death_time;
 	u_int64_t       eat_time;
 	u_int64_t       sleep_time;
