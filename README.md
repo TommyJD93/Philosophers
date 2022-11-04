@@ -93,4 +93,46 @@ At this point the thread B is paused, because is doing the same operation as A a
 </code>
 </pre>
 As we can see B restart from where he was paused, since he already read 23 he won't read the current value of cont, he will keep doing his operation with the last value he read before stopping, in this case it's 23 so he will update the cont value to 24 and therefore A's next iteration won't read 31 but 24.
+
+<a href='https://www.youtube.com/watch?v=FY9livorrJI'>video about race condition</a>
 <h3>Mutex</h3>
+Now that we know what a race condition is we'll talk about mutex, that are what we need to avoid a data racing. Immagine these as locks, if a mutex is already locked and a thread tries to lock it he we'll be stopped untill the mutex will be unlocked. Taking up the previous example, we could avoid the race condition simply adding a lock before we increase the value, in this way thread B can't overwrite the value of cont with what he read before being stopped.
+<pre>
+<code>
+
+#include <pthread.h>
+#include <stdio.h>
+
+int cont = 0;
+pthread_mutex_t lock;
+
+void  *routine()
+{
+  int i;
+
+  i = -1;
+  while (++i < 1000000)
+  {
+    pthread_mutex_lock(&lock);
+  	  cont++;
+    pthread_mutex_unlock(&lock);
+  }
+  return (NULL);
+}
+
+int main()
+{
+  pthread_t tid1, tid2;
+
+  pthread_mutex_init(&lock, NULL);
+  pthread_create(&tid1, NULL, &routine, NULL);
+  pthread_create(&tid2, NULL, &routine, NULL);
+
+  pthread_join(tid1, NULL);
+  pthread_join(tid2, NULL);
+  pthread_mutex_destroy(&lock);
+  printf("cont: %d\n", cont);
+}
+</code>
+</pre>
+You have surely noticed that we initialize and destroy the mutex, and you <b><i>have to</b></i> do that every time you want to use a mutex (destroy it after you finished using it) otherwise it won't work. <b><i>Please note that if you don't destroy a mutex you may end up having leaks, but MacOS aren't detected.</b></i>
