@@ -154,7 +154,8 @@ The first thing we are going to do it checking the input that we recive. As firs
 <li>7: are the times all the philos must eat in order to terminate the program</li>
 </ul>
 
-Let's think to the conditions the inputs has to respect: obviously the input must contain only numbers; the correction sheet, at the moment I'm writing this guide (4/11/2022) tells you to test with no more that 200 philos so we can set the limit of philos to 200 and can't be less than 1; for what concerns the death, eat and think time the only thing you. have to check is that they are bigger than 0. 
+Let's think to the conditions the inputs has to respect: obviously the input must contain only numbers; the correction sheet, at the moment I'm writing this guide (4/11/2022) tells you to test with no more that 200 philos so we can set the limit of philos to 200 and can't be less than 1; for what concerns the death, eat and think time the only thing you. have to check is that they are bigger than 0.
+
 <h3>Step 2: Creating the structures</h3>
 Since we need to handle a lot of data, we will need a couple of structures. Personally I've made 2 structures: one with the general set of rules (input datas, mutex array for forks, philos array, ...); and one for the philos where I save the personal data of each philo (pointer to the general data structure, time left before his death, pointers to forks, ...). You can handle the structures as you want, but one thing that i suggest you is to make a pointer to the structure of the general data (or where you want to save the input datas) because you will need them later, I'll leave a snippet to show you how I've done that.
 <pre>
@@ -193,3 +194,30 @@ typedef struct s_data
 } t_data;
 </code>
 </pre>
+<h3>Step 3: Initialization and allocation</h3>
+Now that we have everything setted up we need to allocate the structures, initialize all the mutexes and start the threads. First of all we allocate all the structures, then we initialize the mutexes with the function <a href='https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.html'>pthread_mutex_init()</a>, here's a little example on how to use it:
+<pre>
+<code>
+pthread_mutex_t	mutex;
+//
+pthread_mutex_init(&mutex, NULL);
+</code>
+</pre>
+Remember to put the '&' before the mutex name sicne the function requires a pointer to the variable, for this project you can NULL the second parameter since we are not going to specify any attribute for our mutexes.<br>
+To start the threads we are going to use the function <a href='https://man7.org/linux/man-pages/man3/pthread_create.3.html'>pthread_create()</a>
+<pre>
+<code>
+void	*routine(void *data_pointer)
+{
+//some code
+}
+
+int main()
+{
+	pthread_t	tid;
+	//
+	pthread_create(&tid, NULL, &routine, &data_pointer)
+}
+</code>
+</pre>
+The first parameter of this function is the pointer to the tid variable (of type pthread_t), the second one is nullable (as for pthread_mutex_init we don't have to specify attributes in this project), the third parameter is the pointer to the function that the thread is going to execute and the forth parameter is the pointer to the datas that we give to the routine function. Please note that the routine is always a "void *" function and the datas <b><i>must</b></i> be given to it through a pointer to the data that we are trying to pass.
