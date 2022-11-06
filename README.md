@@ -194,6 +194,7 @@ typedef struct s_data
 } t_data;
 </code>
 </pre>
+
 <h3>Step 3: Initialization and allocation</h3>
 Now that we have everything setted up we need to allocate the structures, initialize all the mutexes and start the threads. First of all we allocate all the structures, then we initialize the mutexes with the function <a href='https://www.ibm.com/docs/en/i/7.3?topic=ssw_ibm_i_73/apis/users_61.html'>pthread_mutex_init()</a>, here's a little example on how to use it:
 <pre>
@@ -221,3 +222,13 @@ int main()
 </code>
 </pre>
 The first parameter of this function is the pointer to the tid variable (of type pthread_t), the second one is nullable (as for pthread_mutex_init we don't have to specify attributes in this project), the third parameter is the pointer to the function that the thread is going to execute and the forth parameter is the pointer to the datas that we give to the routine function. Please note that the routine is always a "void *" function and the datas <b><i>must</b></i> be given to it through a pointer to the data that we are trying to pass.
+
+<h3>Step 4: Structuring the philo's routine, the supervisor and the monitor</h3>
+
+Now that we have everything setted up we need to sturcture the routine for the philos, a supervisor for each of them that is going to tell us when a philo is dead and a monitor that is going to tell us when all the philos have eaten all the times that are required.
+<ul>
+<li><h3>Routine</h3></li>
+The routine will be the function executed over and over by the philos, and is also going to start the supervisor for each philo.<br>
+Basically we have to create a loop that will be interrupted by the death of one of the philos or by reaching the times that each of them must eat, in this loop we'll tell them to: eat, sleep and think. But how? Starting from the thinking action, a philo has to think whenever he can't eat so it's pretty simple we just have to insert the message "Philo x is thinking". Moving on we have the eating action, this one is going to be divided in four main actions: picking the two forks needed, eating, dropping the forks and sleeping (you can also make sleeping action apart).<br>
+Let's start with the forks picking, this is pretty simple, a philo to pick a fork locks the mutex refered to it so we are going to use the <a href='https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/users_62.html'>pthread_mutex_lock</a> function. Note that if you consider the philos disposed clockwise you are going to lock the right fork before the left one, if you consider them disposed counterclockwise then you are going to lock the left one first.<br>
+Now that the philo has taken the forks he need to eat and here we update the status(to do that I've made an int inside the philo struct) of the philo so that the supervisor will know that he's eating and he don't have to die, and then we simply use an usleep (i suggest you to recode it by your self for making it faster, you can find mine in src/utils/utils.c). Right after that, before dropping the forks, we update the philo status. At this point the philo have to drop the froks, we replicate the pick fork function but this time we use the function <a href='https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/users_65.html'>pthread_muted_unlock</a> to unlock the mutexes previously locked. At this point we make the philo sleep using another time the usleep function.
