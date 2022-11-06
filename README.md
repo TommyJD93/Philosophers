@@ -138,7 +138,7 @@ int main()
 }
 </code>
 </pre>
-You have surely noticed that we initialize and destroy the mutex, and you <b><i>have to</b></i> do that every time you want to use a mutex (destroy it after you finished using it) otherwise it won't work. <b><i>Please note that if you don't destroy a mutex you may end up having leaks, but MacOS aren't detected.</b></i><br>
+You have surely noticed that we initialize and destroy the mutex, and you <b><i>have to</b></i> do that every time you want to use a mutex (destroy it after you finished using it) otherwise it won't work. <b><i>Please note that if you don't destroy a mutex you may end up having leaks, but on MacOS aren't detected.</b></i><br>
 If you want more informations about mutex i suggest you to take a look at the pthread documentation and to the video below<br>
 <a href='https://www.youtube.com/watch?v=oq29KUy29iQ'>video about mutex</a>
 
