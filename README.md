@@ -216,7 +216,7 @@ int main()
 {
 	pthread_t	tid;
 	//
-	pthread_create(&tid, NULL, &routine, &data_pointer)
+	pthread_create(&tid, NULL, &routine, &data_pointer);
 }
 </code>
 </pre>
