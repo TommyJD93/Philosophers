@@ -233,5 +233,13 @@ Basically we have to create a loop that will be interrupted by the death of one 
 Let's start with the forks picking, this is pretty simple, a philo to pick a fork locks the mutex refered to it so we are going to use the <a href='https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/users_62.html'>pthread_mutex_lock</a> function. Note that if you consider the philos disposed clockwise you are going to lock the right fork before the left one, if you consider them disposed counterclockwise then you are going to lock the left one first.<br>
 Now that the philo has taken the forks he need to eat and here we update the status(to do that I've made an int inside the philo struct) of the philo so that the supervisor will know that he's eating and he don't have to die, and then we simply use an usleep (i suggest you to recode it by your self for making it faster, you can find mine in src/utils/utils.c). Right after that, before dropping the forks, we update the philo status.<br>
 At this point the philo have to drop the froks, we replicate the pick fork function but this time we use the function <a href='https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/users_65.html'>pthread_muted_unlock</a> to unlock the mutexes previously locked. At this point we make the philo sleep using another time the usleep function.
+
 <li><h3>Supervisor</h3></li>
+In this thread we are going to check whether the time passed by the last time a philo have eaten is greater or equal to the time it takes to a philo to die from starvation, to make everything work a little bit better we are also going to check if in the momet a philo should die he's eating, in that case we'll let him survive. Other than that we are also going to check when the philo reaches the number of times he must eat and mark him as "finished", in thi way the monitor will know when all the philos have eaten.
+
+<li><h3>Monitor</h3></li>
+This thread is going to be started(before all the philos) just if we have the optional parameter. Here we just have to check if the status of all the philos is marked as "finished", and in that case we are goingo to tell the program to stop all the threads.
 </ul>
+
+<h3>Step 4: Clearing the memory</h3>
+At this point we are almost done, we just have to join the threads, destroy the mutexes and clear the memory we have allocated. Let's start with joining threads, right below the cycle where we start the philos we make another cycle where we join them using the function <a href= 'https://www.ibm.com/docs/en/zos/2.1.0?topic=functions-pthread-join-wait-thread-end'>pthread_join</a> wich is simply going to tell the program "wait untill all the threads terminate in order to keep going".
