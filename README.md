@@ -229,9 +229,9 @@ Now that we have everything setted up we need to allocate the structures, initia
 
 <pre>
 <code>
-pthread_mutex_t	mutex;
-//
-pthread_mutex_init(&mutex, NULL);
+	pthread_mutex_t	mutex;
+
+	pthread_mutex_init(&mutex, NULL);
 </code>
 </pre>
 
@@ -248,7 +248,7 @@ void	*routine(void *data_pointer)
 int main()
 {
 	pthread_t	tid;
-	//
+
 	pthread_create(&tid, NULL, &routine, &data_pointer);
 }
 </code>
