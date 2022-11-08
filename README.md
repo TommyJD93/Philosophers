@@ -14,7 +14,7 @@
 	- [Step 4: Creating the structures](#step4)
 	- [Step 5: Creating the structures](#step5)
 4. [Utils Functions](#utils)
-	- [clear data](#cleardata)
+	- [clear data](#clear_data)
 	- [ft_exit](#ft_exit)
 	- [error](#error)
 	- [get_time](#get_time)
