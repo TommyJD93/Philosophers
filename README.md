@@ -167,7 +167,7 @@ int main()
 </pre>
 
 You have surely noticed that we initialize and destroy the mutex, and you <b><i>have to</b></i> do that every time you want to use a mutex (destroy it after you finished using it) otherwise it won't work. <b><i>Please note that if you don't destroy a mutex you may end up having leaks, but on MacOS aren't detected.</b></i><br>
-If you want more informations about mutex i suggest you to take a look at the pthread documentation and to the video below<br>
+If you want more informations about mutex i suggest you to take a look at the pthread documentation and to the video below.<br><br>
 <a href='https://www.youtube.com/watch?v=oq29KUy29iQ'>video about mutex</a>
 
 <div align='center'><h1><a name='guide'>Step to step guide</a></h1></div>
@@ -236,7 +236,7 @@ pthread_mutex_init(&mutex, NULL);
 </pre>
 
 Remember to put the '&' before the mutex name sicne the function requires a pointer to the variable, for this project you can NULL the second parameter since we are not going to specify any attribute for our mutexes.<br>
-To start the threads we are going to use the function <a href='https://man7.org/linux/man-pages/man3/pthread_create.3.html'>pthread_create()</a>
+To start the threads we are going to use the function <a href='https://man7.org/linux/man-pages/man3/pthread_create.3.html'>pthread_create</a>
 
 <pre>
 <code>
