@@ -13,7 +13,7 @@
 	- [Step 3: Initialization and allocation](#step3)
 	- [Step 4: Structuring the philo's routine, the supervisor and the monitor](#step4)
 	- [Step 5: Clearing the memory](#step5)
-4. [Utils Functions](#utils)
+4. [Utils Functions](#utilsfunc)
 	- [clear data](#clear_data)
 	- [ft_exit](#ft_exit)
 	- [error](#error)
@@ -281,7 +281,7 @@ Once we joined al the threads we need to destroy all the mutexes, to do that we 
 As final step we need to free al the allocations that we made. And that's it, now you have a perfectly functioning Philosophers!!!
 </ul>
 
-<h3>Utils Functions</h3>
+<div align='center'><h3><a name='utilsfunc'>Utils Functions</a></h3></div>
 To help you understand which utils functions you will need in this project I'll leave a list with some snippets :)
 <ul>
 
