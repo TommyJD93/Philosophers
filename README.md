@@ -235,7 +235,7 @@ Now that we have everything setted up we need to allocate the structures, initia
 </code>
 </pre>
 
-Remember to put the '&' before the mutex name sicne the function requires a pointer to the variable, for this project you can NULL the second parameter since we are not going to specify any attribute for our mutexes.<br>
+Remember to put the '&' before the mutex name since the function requires a pointer to the variable, for this project you can NULL the second parameter since we are not going to specify any attribute for our mutexes.<br>
 To start the threads we are going to use the function <a href='https://man7.org/linux/man-pages/man3/pthread_create.3.html'>pthread_create</a>
 
 <pre>
