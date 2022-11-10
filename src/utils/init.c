@@ -18,10 +18,10 @@ int	alloc(t_data *data)
 	if (!data->tid)
 		return (error(ALLOC_ERR_1, data));
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_num);
-	if (!data->tid)
+	if (!data->forks)
 		return (error(ALLOC_ERR_2, data));
 	data->philos = malloc(sizeof(t_philo) * data->philo_num);
-	if (!data->tid)
+	if (!data->philos)
 		return (error(ALLOC_ERR_3, data));
 	return (0);
 }
