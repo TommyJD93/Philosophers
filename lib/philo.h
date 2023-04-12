@@ -13,6 +13,7 @@
 #ifndef PHILO_H
 # define PHILO_H
 # include <stdbool.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
